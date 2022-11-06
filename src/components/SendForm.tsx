@@ -15,6 +15,7 @@ import {
 
 const StyledComponent = styled.form`
   flex: 1;
+  width: 300px;
   display: flex;
   align-self: center;
   flex-direction: column;
@@ -25,14 +26,14 @@ const validationSchema = object({
   name: string().required("Required").min(5, "Min length 5").max(10, "Max length 10"),
   description: string().required("Required").min(5, "Min length 5").max(10, "Max length 10"),
   positions: array()
-    .of(object({ id: string(), name: string() }))
+    .of(object({ name: string() }))
     .min(1, "Select position"),
   relation: object()
     .nullable()
     .test({
       name: "relation",
       message: "Select relation",
-      test: (value) => value != null && value.id && value.name,
+      test: (value) => value != null && value.name,
     }),
 });
 

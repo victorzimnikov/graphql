@@ -56,10 +56,7 @@ export function RelationsSelect(
     createRelation({ name })
       .then(({ data }) => {
         if (data) {
-          props.onSelectValue({
-            name: data.createApplicantIndividualCompanyRelation.name,
-            id: Date.now().toString(),
-          });
+          props.onSelectValue(data.createApplicantIndividualCompanyRelation);
         }
       })
       .catch(() => {});

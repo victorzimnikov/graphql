@@ -55,10 +55,7 @@ export function PositionsSelect(
     createPosition({ name })
       .then(({ data }) => {
         if (data && Array.isArray(props.value)) {
-          props.onSelectValue([
-            ...props.value,
-            { name: data.createApplicantIndividualCompanyPosition.name, id: Date.now().toString() },
-          ]);
+          props.onSelectValue([...props.value, data.createApplicantIndividualCompanyPosition]);
         }
       })
       .catch(() => {});

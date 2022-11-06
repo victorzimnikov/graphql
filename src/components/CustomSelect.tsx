@@ -35,7 +35,6 @@ export function CustomSelect<T>({
   return (
     <Autocomplete
       {...props}
-      sx={{ width: "300px" }}
       noOptionsText={<AddButton onConfirm={addHandler} />}
       onChange={(_, value) => onSelectValue(value)}
       onInputChange={(_, value) => setInputValue(value)}
