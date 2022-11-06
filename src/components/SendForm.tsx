@@ -25,9 +25,7 @@ const StyledComponent = styled.form`
 const validationSchema = object({
   name: string().required("Required").min(5, "Min length 5").max(10, "Max length 10"),
   description: string().required("Required").min(5, "Min length 5").max(10, "Max length 10"),
-  positions: array()
-    .of(object({ name: string() }))
-    .min(1, "Select position"),
+  positions: array().min(1, "Select position"),
   relation: object()
     .nullable()
     .test({
