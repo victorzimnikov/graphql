@@ -4,6 +4,7 @@ import styled from "@emotion/styled";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import { array, object, string } from "yup";
+import CircularProgress from "@mui/material/CircularProgress";
 
 import { InputField } from "./InputField";
 import { RelationSelectField } from "./RelationSelectField";
@@ -44,7 +45,7 @@ interface FormProps {
 
 interface Props {
   readonly initialValues: FormProps;
-  readonly onSubmit: (values: FormProps) => void;
+  readonly onSubmit: (values: FormProps) => Promise<void>;
 }
 
 export function SendForm({ onSubmit, initialValues }: Props) {
@@ -57,7 +58,7 @@ export function SendForm({ onSubmit, initialValues }: Props) {
         initialValues={initialValues}
         validationSchema={validationSchema}
       >
-        {({ handleSubmit }) => (
+        {({ handleSubmit, isSubmitting }) => (
           <Stack spacing={2}>
             <PositionSelectField name="positions" />
             <RelationSelectField name="relation" />
@@ -80,7 +81,7 @@ export function SendForm({ onSubmit, initialValues }: Props) {
             />
 
             <Button variant="outlined" onClick={() => handleSubmit()}>
-              Submit
+              {isSubmitting ? <CircularProgress size={24} /> : "Submit"}
             </Button>
           </Stack>
         )}

@@ -11,10 +11,12 @@ export function AppContainer() {
   return (
     <Provider value={client}>
       <SendForm
-        onSubmit={(values) => {
-          // eslint-disable-next-line no-console
-          console.log(values);
-        }}
+        onSubmit={(values) =>
+          new Promise((resolve) => setTimeout(resolve, 3000)).then(() => {
+            // eslint-disable-next-line no-console
+            console.log(values);
+          })
+        }
         initialValues={{
           name: "",
           positions: [],
