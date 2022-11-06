@@ -18,6 +18,7 @@ export function RelationSelectField({ name }: Props) {
     <FormControl>
       <RelationsSelect
         value={field.value}
+        InputProps={{ error: !!error }}
         onSelectValue={(value) => {
           helpers.setTouched(true);
           helpers.setValue(value);

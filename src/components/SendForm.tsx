@@ -66,7 +66,7 @@ export function SendForm({ onSubmit, initialValues }: Props) {
             <InputField
               name="name"
               inputProps={{
-                placeholder: "Name",
+                label: "Name",
                 inputProps: { maxLength: 10 },
               }}
             />
@@ -75,7 +75,7 @@ export function SendForm({ onSubmit, initialValues }: Props) {
               inputProps={{
                 minRows: 5,
                 multiline: true,
-                placeholder: "Description",
+                label: "Description",
                 inputProps: { maxLength: 10 },
               }}
             />

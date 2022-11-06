@@ -18,6 +18,7 @@ export function PositionSelectField({ name }: Props) {
     <FormControl>
       <PositionsSelect
         value={field.value}
+        InputProps={{ error: !!error }}
         onSelectValue={(value) => {
           helpers.setTouched(true);
           helpers.setValue(value);

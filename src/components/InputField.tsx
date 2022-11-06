@@ -21,10 +21,9 @@ export function InputField({ name, inputProps }: Props) {
         {...inputProps}
         {...field}
         InputProps={{
+          autoComplete: "off",
+          error: !!error,
           ...inputProps?.InputProps,
-          sx: error
-            ? { ...inputProps?.InputProps?.sx, border: "1px solid red" }
-            : inputProps?.InputProps?.sx,
         }}
       />
       {!!error && <ErrorText text={error} />}

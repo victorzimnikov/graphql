@@ -36,10 +36,12 @@ const createRelationMutation = /* GraphQL */ `
   }
 `;
 
-export function RelationsSelect({
-  value,
-  onSelectValue,
-}: Pick<CustomSelectProps<ApplicantIndividualCompanyRelation>, "value" | "onSelectValue">) {
+export function RelationsSelect(
+  props: Pick<
+    CustomSelectProps<ApplicantIndividualCompanyRelation>,
+    "value" | "onSelectValue" | "InputProps"
+  >,
+) {
   const [relationResult] = useQuery<QueryResultType>({
     query: elementsQuery,
   });
@@ -54,7 +56,7 @@ export function RelationsSelect({
     createRelation({ name })
       .then(({ data }) => {
         if (data) {
-          onSelectValue({
+          props.onSelectValue({
             name: data.createApplicantIndividualCompanyRelation.name,
             id: Date.now().toString(),
           });
@@ -64,12 +66,11 @@ export function RelationsSelect({
 
   return (
     <CustomSelect
-      value={value}
+      {...props}
       options={list}
       label="Relation"
       loading={loading}
       onAdd={addRelationHandler}
-      onSelectValue={onSelectValue}
       isOptionEqualToValue={(option, value) => option.name === value?.name}
       getOptionLabel={(option) => {
         if (typeof option === "string") {

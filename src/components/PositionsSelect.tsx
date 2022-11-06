@@ -36,10 +36,12 @@ const createPositionMutation = /* GraphQL */ `
   }
 `;
 
-export function PositionsSelect({
-  value,
-  onSelectValue,
-}: Pick<CustomSelectProps<ApplicantIndividualCompanyPosition>, "value" | "onSelectValue">) {
+export function PositionsSelect(
+  props: Pick<
+    CustomSelectProps<ApplicantIndividualCompanyPosition>,
+    "value" | "onSelectValue" | "InputProps"
+  >,
+) {
   const [getPositionsResult] = useQuery<QueryResultType>({
     query: positionsQuery,
   });
@@ -52,9 +54,9 @@ export function PositionsSelect({
   const addPositionHandler = (name: string) =>
     createPosition({ name })
       .then(({ data }) => {
-        if (data && Array.isArray(value)) {
-          onSelectValue([
-            ...value,
+        if (data && Array.isArray(props.value)) {
+          props.onSelectValue([
+            ...props.value,
             { name: data.createApplicantIndividualCompanyPosition.name, id: Date.now().toString() },
           ]);
         }
@@ -63,12 +65,11 @@ export function PositionsSelect({
 
   return (
     <CustomSelect
-      value={value}
+      {...props}
       options={list}
       multiple={true}
       label="Positions"
       loading={loading}
-      onSelectValue={onSelectValue}
       onAdd={addPositionHandler}
       isOptionEqualToValue={(option, value) => option.name === value?.name}
       getOptionLabel={(option) => {
