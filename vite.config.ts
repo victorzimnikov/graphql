@@ -4,5 +4,10 @@ import eslint from "vite-eslint-plugin";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), eslint()],
+  plugins: [react()],
+  server: {
+    hmr: {
+      overlay: false,
+    },
+  },
 });

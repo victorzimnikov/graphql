@@ -12,6 +12,11 @@ type QueryResultType = Record<
   ApplicantIndividualCompanyPositionPaginator
 >;
 
+type MutationResultType = Record<
+  "createApplicantIndividualCompanyPosition",
+  ApplicantIndividualCompanyPosition
+>;
+
 const positionsQuery = /* GraphQL */ `
   query {
     applicantIndividualCompanyPositions(first: 50) {
@@ -33,18 +38,28 @@ const createPositionMutation = /* GraphQL */ `
 
 export function PositionsSelect({
   value,
-  onChange,
-}: Pick<CustomSelectProps<ApplicantIndividualCompanyPosition>, "value" | "onChange">) {
+  onSelectValue,
+}: Pick<CustomSelectProps<ApplicantIndividualCompanyPosition>, "value" | "onSelectValue">) {
   const [getPositionsResult] = useQuery<QueryResultType>({
     query: positionsQuery,
   });
-  const [createPositionResult, createPosition] = useMutation(createPositionMutation);
+  const [createPositionResult, createPosition] =
+    useMutation<MutationResultType>(createPositionMutation);
 
   const loading = getPositionsResult.fetching || createPositionResult.fetching;
-
   const list = getPositionsResult.data?.applicantIndividualCompanyPositions?.data || [];
 
-  const addPositionHandler = (name: string) => createPosition({ name }).catch(() => {});
+  const addPositionHandler = (name: string) =>
+    createPosition({ name })
+      .then(({ data }) => {
+        if (data && Array.isArray(value)) {
+          onSelectValue([
+            ...value,
+            { name: data.createApplicantIndividualCompanyPosition.name, id: Date.now().toString() },
+          ]);
+        }
+      })
+      .catch(() => {});
 
   return (
     <CustomSelect
@@ -53,7 +68,7 @@ export function PositionsSelect({
       multiple={true}
       label="Positions"
       loading={loading}
-      onChange={onChange}
+      onSelectValue={onSelectValue}
       onAdd={addPositionHandler}
       isOptionEqualToValue={(option, value) => option.name === value?.name}
       getOptionLabel={(option) => {

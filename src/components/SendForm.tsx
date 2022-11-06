@@ -3,7 +3,7 @@ import { Formik } from "formik";
 import styled from "@emotion/styled";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
-import { array, number, object, string } from "yup";
+import { array, object, string } from "yup";
 
 import { InputField } from "./InputField";
 import { RelationSelectField } from "./RelationSelectField";
@@ -25,7 +25,7 @@ const validationSchema = object({
   name: string().required("Required").min(5, "Min length 5").max(10, "Max length 10"),
   description: string().required("Required").min(5, "Min length 5").max(10, "Max length 10"),
   positions: array()
-    .of(object({ id: number(), name: string() }))
+    .of(object({ id: string(), name: string() }))
     .min(1, "Select position"),
   relation: object()
     .nullable()

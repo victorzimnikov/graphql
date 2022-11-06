@@ -18,9 +18,9 @@ export function RelationSelectField({ name }: Props) {
     <FormControl>
       <RelationsSelect
         value={field.value}
-        onChange={(_, reason) => {
+        onSelectValue={(value) => {
           helpers.setTouched(true);
-          helpers.setValue(reason);
+          helpers.setValue(value);
         }}
       />
       {!!error && <ErrorText text={error} />}

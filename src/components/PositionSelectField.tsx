@@ -18,9 +18,9 @@ export function PositionSelectField({ name }: Props) {
     <FormControl>
       <PositionsSelect
         value={field.value}
-        onChange={(_, reason) => {
+        onSelectValue={(value) => {
           helpers.setTouched(true);
-          helpers.setValue(reason);
+          helpers.setValue(value);
         }}
       />
       {!!error && <ErrorText text={error} />}

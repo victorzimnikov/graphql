@@ -12,6 +12,11 @@ type QueryResultType = Record<
   ApplicantIndividualCompanyRelationPaginator
 >;
 
+type MutationResultType = Record<
+  "createApplicantIndividualCompanyRelation",
+  ApplicantIndividualCompanyRelation
+>;
+
 const elementsQuery = /* GraphQL */ `
   query {
     applicantIndividualCompanyRelations(first: 50) {
@@ -33,19 +38,29 @@ const createRelationMutation = /* GraphQL */ `
 
 export function RelationsSelect({
   value,
-  onChange,
-}: Pick<CustomSelectProps<ApplicantIndividualCompanyRelation>, "value" | "onChange">) {
+  onSelectValue,
+}: Pick<CustomSelectProps<ApplicantIndividualCompanyRelation>, "value" | "onSelectValue">) {
   const [relationResult] = useQuery<QueryResultType>({
     query: elementsQuery,
   });
 
-  const [createRelationResult, createRelation] = useMutation(createRelationMutation);
+  const [createRelationResult, createRelation] =
+    useMutation<MutationResultType>(createRelationMutation);
 
   const loading = createRelationResult.fetching || relationResult.fetching;
-
   const list = relationResult.data?.applicantIndividualCompanyRelations?.data || [];
 
-  const addRelationHandler = (name: string) => createRelation({ name }).catch(() => {});
+  const addRelationHandler = (name: string) =>
+    createRelation({ name })
+      .then(({ data }) => {
+        if (data) {
+          onSelectValue({
+            name: data.createApplicantIndividualCompanyRelation.name,
+            id: Date.now().toString(),
+          });
+        }
+      })
+      .catch(() => {});
 
   return (
     <CustomSelect
@@ -53,8 +68,8 @@ export function RelationsSelect({
       options={list}
       label="Relation"
       loading={loading}
-      onChange={onChange}
       onAdd={addRelationHandler}
+      onSelectValue={onSelectValue}
       isOptionEqualToValue={(option, value) => option.name === value?.name}
       getOptionLabel={(option) => {
         if (typeof option === "string") {
